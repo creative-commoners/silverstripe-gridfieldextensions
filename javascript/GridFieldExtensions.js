@@ -396,5 +396,32 @@
                 this.parent().find('.ss-gridfield-pagesize-submit').trigger('click');
             }
         });
+
+		/**
+		 * GridFieldMeatballMenuComponent
+		 */
+		$('.ss-gridfield .meatball-menu__item--action').entwine({
+			onclick: function(e) {
+				const callback = null;
+				jQuery.ajax({
+		          headers: {"X-Pjax" : "CurrentForm,Breadcrumbs"},
+		          url: this.children('a').prop('href'),
+		          type: 'GET',
+		          complete: function() {
+		            // I dunno. Something, probably.
+		          },
+		          success: function(data, status, xhr) {
+		            if(callback) callback(data, status, xhr);
+
+		            var newContentEls = $('.cms-container').handleAjaxResponse(data, status, xhr);
+		            if(!newContentEls) return;
+
+		            newContentEls.filter('form').trigger('aftersubmitform', {status: status, xhr: xhr});
+		          }
+		        });
+				e.stopPropagation();
+				return false;
+			}
+		});
 	});
 })(jQuery);
