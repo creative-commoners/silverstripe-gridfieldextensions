@@ -120,6 +120,9 @@ class GridFieldMeatballMenuComponent implements
         return $handler->handleRequest($request);
     }
 
+    /**
+     * Handle actions that don't require loading of a new page/panel/etc.
+     */
     public function handleRecordAction($gridField, $request)
     {
         $record = $gridField->getList()->byID($request->param("ID"));

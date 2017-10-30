@@ -9,6 +9,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Security\Security;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Control\HTTPResponse;
 
 class GridFieldRecordActionHandler extends RequestHandler
 {
@@ -36,8 +37,7 @@ class GridFieldRecordActionHandler extends RequestHandler
     {
         if ($this->record->canPublish()) {
             $this->record->publishRecursive();
-            $message = $this->generateMessage('Published');
-            return $this->finishHandling($request, $message);
+            return $this->finishHandling($request, 'Published');
         }
         return Security::permissionFailure($this);
     }
@@ -46,8 +46,7 @@ class GridFieldRecordActionHandler extends RequestHandler
     {
         if ($this->record->canUnpublish()) {
             $this->record->doUnpublish();
-            $message = $this->generateMessage('Unpublished');
-            return $this->finishHandling($request, $message);
+            return $this->finishHandling($request, 'Unpublished');
         }
         return Security::permissionFailure($this);
     }
@@ -56,21 +55,36 @@ class GridFieldRecordActionHandler extends RequestHandler
     {
         if ($this->record->canArchive()) {
             $this->record->doArchive();
-            $message = $this->generateMessage('Archived');
-            return $this->finishHandling($request, $message);
+            return $this->finishHandling($request, 'Archived');
         }
         return Security::permissionFailure($this);
     }
 
-    protected function finishHandling($request, $message)
+    /**
+     * Return the most appropriate response for our position in the CMS
+     * and display the feedback to the user.
+     * @param HTTPRequest $request
+     * @param string $message User feedback
+     * @return HTTPResponse
+     */
+    protected function finishHandling($request, $messageType)
     {
-        $this->request->addHeader('X-Status', rawurlencode($message));
+        $response = HTTPResponse::create();
+
+        // Set the more immeditate 'toast' style notification
+        $message = $this->generateMessage($messageType);
+        $response->addHeader('X-Status', rawurlencode($message));
+
+        // Display feedback atop the form this action has originated from
+        $message = $this->generateMessage($messageType, true);
         $this->gridField->getForm()->sessionMessage($message, 'good', ValidationResult::CAST_HTML);
+
         $controller = Controller::curr();
         if ($controller->hasMethod('getResponseNegotiator')) {
+            $controller->setResponse($response);
             return $controller->getResponseNegotiator()->respond($request);
         }
-        return $this->redirectBack();
+        return $response;
     }
 
     /**
@@ -78,18 +92,19 @@ class GridFieldRecordActionHandler extends RequestHandler
      * @param string $translationID "Published" | "Unpublished" | "Archived"
      * @return string Message in local translation if it exsits, or in English.
      */
-    protected function generateMessage($translationID)
+    protected function generateMessage($translationID, $useHTML = false)
     {
-        $link = Controller::join_links($this->gridField->Link('item'), $this->record->ID, 'edit');
-        $link = '<a href="' . $link . '">"'
-            . htmlspecialchars($this->record->Title, ENT_QUOTES)
-            . '"</a>';
+        $title = htmlspecialchars($this->record->Title, ENT_QUOTES);
+        if ($useHTML) {
+            $link = Controller::join_links($this->gridField->Link('item'), $this->record->ID, 'edit');
+            $title = '<a href="' . $link . '">"' . $title . '"</a>';
+        }
         $message = _t(
             'Symbiote\\GridFieldExtensions\\GridFieldRecordActionHandler.' . $translationID,
-            "$translationID {name} {link}",
+            "$translationID {type} {title}",
             array(
-                'name' => $this->record->i18n_singular_name(),
-                'link' => $link
+                'type' => $this->record->i18n_singular_name(),
+                'title' => $title
             )
         );
         return $message;

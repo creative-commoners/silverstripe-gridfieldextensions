@@ -221,3 +221,91 @@
 .ss-gridfield-configurable-paginator .pagination-page-number input {
   text-align: center;
 }
+
+/**
+ * GridFieldMeatballMenu
+ */
+.meatball-menu__container {
+    position: relative;
+    padding: 0 0.5em;
+    height: 2em;
+    border-radius: 3px;
+}
+
+.meatball-menu__container--open,
+.meatball-menu__container:hover {
+    background: #e3eaf0;
+}
+
+.meatball-menu__handle {
+    font-size: 1.5em;
+    line-height: 1.7;
+}
+
+.meatball-menu__item-list {
+    position: absolute;
+    top: 2.7em;
+    padding: 0.3em 0;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    z-index: 1;
+    box-shadow: 0 0.75em 2em #888;
+    display: none;
+}
+
+.meatball-menu__container--open .meatball-menu__item-list {
+    display: block;
+}
+
+.meatball-menu__item-list--left {
+    left: -7px;
+}
+
+.meatball-menu__item-list--right {
+    right: -7px;
+}
+
+.meatball-menu__item-list::before {
+    content: "";
+    display: block;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    transform: rotate(-45deg);
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    top: -0.6em;
+    background: white;
+    z-index: 0;
+}
+
+.meatball-menu__item-list--left::before {
+    left: 1.2em;
+}
+
+.meatball-menu__item-list--right::before {
+    right: 1.2em;
+}
+
+.meatball-menu__item {
+    list-style: none outside none;
+    position: relative;
+    z-index: 1;
+}
+
+.meatball-menu__item:hover {
+    background: #edf2f6;
+}
+
+.meatball-menu__item a {
+    text-decoration: none;
+    color: #555;
+    padding: 0.5em 1em;
+    min-width: 150px;
+    display: block;
+}
+
+.meatball-menu__item--divider-after + .meatball-menu__item {
+    border-top: 1px solid #ccc;
+}
