@@ -1,0 +1,14 @@
+# Ignore dist files
+client/dist/
+
+# Ignore legacy files
+client/src/legacy/GridFieldExtensions.js
+client/src/legacy/tmpl.js
+
+# Ignore vendor
+node_modules/
+thirdparty/
+
+# Ignore language files (auto-generated)
+client/lang/
+
