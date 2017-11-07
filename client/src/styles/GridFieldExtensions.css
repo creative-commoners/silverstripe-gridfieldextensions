@@ -224,7 +224,7 @@
 
 /**
  * GridFieldMeatballMenu
- */
+ * /
 .meatball-menu__container {
     position: relative;
     padding: 0 0.5em;
@@ -309,3 +309,4 @@
 .meatball-menu__item--divider-after + .meatball-menu__item {
     border-top: 1px solid #ccc;
 }
+*/

@@ -399,7 +399,7 @@
 
 		/**
 		 * GridFieldMeatballMenuComponent
-		 */
+		 * /
 		$('.ss-gridfield .meatball-menu__container').entwine({
 			onclick: function(e) {
 				this.openMeatballs();
@@ -453,6 +453,6 @@
 				e.stopPropagation();
 				return false;
 			}
-		});
+		});*/
 	});
 })(jQuery);
