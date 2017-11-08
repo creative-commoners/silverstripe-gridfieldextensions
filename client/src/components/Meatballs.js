@@ -1,19 +1,16 @@
 import { inject } from 'lib/Injector';
 import React, { PropTypes } from 'react';
 
-const Meatballs = ({ PopoverField, id, children }) => ({
-  render() {
-    return (
-      <PopoverField
-        id={id}
-        buttonSize="sm"
-        data={{ placement: 'bottom' }}
-      >
-        {children}
-      </PopoverField>
-    );
-  }
-});
+const Meatballs = ({ PopoverField, id, children }) => (
+  <PopoverField
+    id={id}
+    buttonSize="sm"
+    data={{ placement: 'bottom' }}
+    className="mr-0"
+  >
+    {children}
+  </PopoverField>
+);
 
 Meatballs.propTypes = {
   id: PropTypes.string.isRequired,
@@ -22,9 +19,10 @@ Meatballs.propTypes = {
 
 Meatballs.defaultProps = {
   id: '',
-  actions: [],
   PopoverField: null,
 };
+
+export { Meatballs as Component };
 
 export default inject(
   ['PopoverField'],
