@@ -36,8 +36,9 @@ class GridFieldMeatballMenuComponent implements
         return ['Meatballs'];
     }
 
-    public function getColumnContent($gridField, $record, $columnName)
+    protected function getRenderData($gridField, $record)
     {
+        $renderData = [];
         GridFieldExtensions::include_requirements();
         $link = function ($action = null, $hash = null) use ($gridField, $record) {
             $link = Controller::join_links($gridField->Link('item'), $record->ID, $action);
@@ -46,36 +47,57 @@ class GridFieldMeatballMenuComponent implements
             // e.g link/set/here#anchor
             return $hash && false ? "$link#$hash" : $link;
         };
-        $isVersioned = $record->hasExtension('SilverStripe\Versioned\Versioned');
-        $isPublished = $isVersioned && $record->isPublished();
-        //Draft and Published are NOT mutually exclusive; An older version can
-        //be Published while there are further changes in Draft.
-        $hasDraft = $isVersioned && !$record->latestPublished();
-        $rootLevelTabs = [];
+
         //We expect that a tabbed list of fields will always have a singular root.
         $tabSet = $record->getCMSFields()->first();
         if ($tabSet instanceof TabSet) {
+            $rootLevelTabs = [];
             $first = true;
             foreach ($tabSet->Tabs() as $tab) {
-                if ($first && !$this->showFirstTab) {
-                    $first = false;
-                    continue;
-                }
                 $tabID = ($first) ? null : $tab->ID();
-                $rootLevelTabs[] = ArrayData::create([
+                $rootLevelTabs[] = [
                     'Title' => $tab->Name,
                     'Link' => $link('edit', $tabID)
-                ]);
+                ];
                 $first = false;
             }
+            if (!$this->showFirstTab) {
+                array_shift($rootLevelTabs);
+            }
+            if ($rootLevelTabs) {
+                $renderData[] = $rootLevelTabs;
+            }
         }
+
+        if ($record->hasExtension('SilverStripe\Versioned\Versioned')) {
+            $versioningActions = [];
+            if (!$record->latestPublished()) {
+                $versioningActions[] = [
+                    'Title' => 'Publish',
+                    'Link' => $link('publish')
+                ];
+            }
+            if ($record->isPublished()) {
+                $versioningActions[] = [
+                    'Title' => 'Unpublish',
+                    'Link' => $link('unpublish')
+                ];
+            }
+            $versioningActions[] = [
+                'Title' => 'Delete',
+                'Link' => $link('archive')
+            ];
+            $renderData[] = $versioningActions;
+        }
+
+        return $renderData;
+    }
+
+    public function getColumnContent($gridField, $record, $columnName)
+    {
+        $actions = json_encode($this->getRenderData($gridField, $record));
         $templateData = ArrayData::create([
-            'Link' => $link(),
-            'Title' => $record->Title,
-            'Versioned' => $isVersioned,
-            'Published' => $isPublished,
-            'Draft' => $hasDraft,
-            'RootTabs' => ArrayList::create($rootLevelTabs)
+            'Actions' => $actions
         ]);
         $template = SSViewer::get_templates_by_class($this, '', __CLASS__);
         return $templateData->renderWith($template);
