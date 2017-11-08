@@ -10,6 +10,10 @@ jQuery.entwine('ss', $ => {
   $('.js-injector-boot .ss-gridfield .meatball-menu__activator').entwine({
     onmatch() {
       this.drawMeatballs();
+      // reinstantiate the changetracker otherwise we will get false positives
+      // due to the react component not existing in the DOM at the time of
+      // page load, and `undefined !== ""``
+      this.closest('form').changetracker();
     },
     getItemId() {
       return this.closest('.ss-gridfield-item').data('id');
