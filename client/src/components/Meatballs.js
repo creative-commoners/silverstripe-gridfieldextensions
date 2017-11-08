@@ -7,6 +7,7 @@ const Meatballs = ({ PopoverField, id, children }) => (
     buttonSize="sm"
     data={{ placement: 'bottom' }}
     className="mr-0"
+    popoverClassName="meatball-menu__actions"
   >
     {children}
   </PopoverField>

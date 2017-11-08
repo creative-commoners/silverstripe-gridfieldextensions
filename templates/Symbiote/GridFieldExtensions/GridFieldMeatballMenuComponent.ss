@@ -1,3 +1,3 @@
-<div class="meatball-menu__container" data-actions="$Actions.JSON">
-    <%-- Contents rendered by Javascript Components --%>
+<div class="meatball-menu__activator" data-actions="$Actions.RAWURLATT">
+    <%-- Menu contents rendered by Javascript Components --%>
 </div>

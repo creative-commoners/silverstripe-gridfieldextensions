@@ -12,6 +12,7 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\TabSet;
+use Silverstripe\Core\Convert;
 
 class GridFieldMeatballMenuComponent implements
     GridField_ColumnProvider,
@@ -95,9 +96,9 @@ class GridFieldMeatballMenuComponent implements
 
     public function getColumnContent($gridField, $record, $columnName)
     {
-        $actions = json_encode($this->getRenderData($gridField, $record));
+        $actions = $this->getRenderData($gridField, $record);
         $templateData = ArrayData::create([
-            'Actions' => $actions
+            'Actions' => json_encode($actions)
         ]);
         $template = SSViewer::get_templates_by_class($this, '', __CLASS__);
         return $templateData->renderWith($template);
