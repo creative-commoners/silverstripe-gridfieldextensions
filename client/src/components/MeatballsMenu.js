@@ -45,7 +45,10 @@ jQuery.entwine('ss', $ => {
         }
       );
       ReactDOM.render(
-        <InjectedMeatballs id={`meatball-menu_${this.getItemId()}`}>
+        <InjectedMeatballs
+          id={`meatball-menu_${this.getItemId()}`}
+          container={this.closest('form').css('position', 'relative').get(0)}
+        >
           {items}
         </InjectedMeatballs>,
         this.get(0),

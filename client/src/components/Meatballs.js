@@ -1,13 +1,14 @@
 import { inject } from 'lib/Injector';
 import React, { PropTypes } from 'react';
 
-const Meatballs = ({ PopoverField, id, children }) => (
+const Meatballs = ({ PopoverField, id, children, container }) => (
   <PopoverField
     id={id}
     buttonSize="sm"
     data={{ placement: 'bottom' }}
     className="mr-0 btn-sm"
     popoverClassName="meatball-menu__actions"
+    container={container}
   >
     {children}
   </PopoverField>
