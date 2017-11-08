@@ -58,7 +58,8 @@ class GridFieldMeatballMenuComponent implements
                 $tabID = ($first) ? null : $tab->ID();
                 $rootLevelTabs[] = [
                     'Title' => $tab->Name,
-                    'Link' => $link('edit', $tabID)
+                    'Link' => $link('edit', $tabID),
+                    'Type' => 'link'
                 ];
                 $first = false;
             }
@@ -75,18 +76,21 @@ class GridFieldMeatballMenuComponent implements
             if (!$record->latestPublished()) {
                 $versioningActions[] = [
                     'Title' => 'Publish',
-                    'Link' => $link('publish')
+                    'Link' => $link('publish'),
+                    'Type' => 'versioning'
                 ];
             }
             if ($record->isPublished()) {
                 $versioningActions[] = [
                     'Title' => 'Unpublish',
-                    'Link' => $link('unpublish')
+                    'Link' => $link('unpublish'),
+                    'Type' => 'versioning'
                 ];
             }
             $versioningActions[] = [
                 'Title' => 'Delete',
-                'Link' => $link('archive')
+                'Link' => $link('archive'),
+                'Type' => 'versioning'
             ];
             $renderData[] = $versioningActions;
         }

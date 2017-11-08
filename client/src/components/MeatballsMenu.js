@@ -29,10 +29,10 @@ jQuery.entwine('ss', $ => {
             );
           }
           items.push(v.map(
-            ({ Title, Link }) => (
+            ({ Title, Link, Type }) => (
               <a
                 href={Link}
-                className="dropdown-item"
+                className={`dropdown-item meatball-menu__${Type}-action`}
               >
                 {Title}
               </a>
@@ -48,7 +48,7 @@ jQuery.entwine('ss', $ => {
       );
     },
   });
-  $('.meatball-menu__actions a').entwine({
+  $('.meatball-menu__versioning-action').entwine({
     onclick(e) {
       jQuery.ajax({
         headers: { 'X-Pjax': 'CurrentForm,Breadcrumbs' },
