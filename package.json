@@ -1,5 +1,5 @@
 {
-  "name": "silverstripe-gridfield-extensions",
+  "name": "silverstripe-gridfieldextensions",
   "version": "1.0.0",
   "description": "A collection of GridField components for the silverstripe-admin module",
   "scripts": {

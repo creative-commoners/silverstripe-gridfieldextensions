@@ -37,7 +37,8 @@
             "docs/en/_images/add-existing-search.png"
         ],
         "expose": [
-            "client/dist"
+            "client/dist",
+            "client/thirdparty"
         ]
     },
     "replace": {

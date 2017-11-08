@@ -1,3 +1,10 @@
-require('../legacy/GridFieldExtensions.js');
-require('../legacy/tmpl.js');
+require('../components/GridFieldAddExistingSearchButton/GridFieldAddExistingSearchButton');
+require('../components/GridFieldAddNewInlineButton/GridFieldAddNewInlineButton');
+require('../components/GridFieldAddNewMultiClass/GridFieldAddNewMultiClass');
+require('../components/GridFieldConfigurablePaginator/GridFieldConfigurablePaginator');
+require('../components/GridFieldEditableColumns/GridFieldEditableColumns');
+require('../components/GridFieldMeatballsMenu/GridFieldMeatballsMenu');
+require('../components/GridFieldOrderableRows/GridFieldOrderableRows');
+
+// @todo move to components/GridFieldMeatballsMenu
 require('../components/MeatballsMenu.js');
