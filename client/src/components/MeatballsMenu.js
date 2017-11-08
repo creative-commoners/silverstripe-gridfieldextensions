@@ -32,7 +32,7 @@ jQuery.entwine('ss', $ => {
             ({ Title, Link }) => (
               <a
                 href={Link}
-                className="btn btn-secondary"
+                className="dropdown-item"
               >
                 {Title}
               </a>
