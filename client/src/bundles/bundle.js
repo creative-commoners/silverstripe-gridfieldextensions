@@ -5,6 +5,3 @@ require('../components/GridFieldConfigurablePaginator/GridFieldConfigurablePagin
 require('../components/GridFieldEditableColumns/GridFieldEditableColumns');
 require('../components/GridFieldMeatballsMenu/GridFieldMeatballsMenu');
 require('../components/GridFieldOrderableRows/GridFieldOrderableRows');
-
-// @todo move to components/GridFieldMeatballsMenu
-require('../components/MeatballsMenu.js');
