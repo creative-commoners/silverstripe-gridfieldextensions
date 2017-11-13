@@ -1,3 +1,1 @@
-<a href="$Link" class="action ss-ui-button ui-button add-existing-search" data-icon="magnifier">
-	$Title
-</a>
+<a href="$Link" class="btn btn-primary font-icon-search action add-existing-search">$Title</a>

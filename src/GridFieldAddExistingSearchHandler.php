@@ -49,7 +49,7 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
 
     public function index()
     {
-        return $this->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddExistingSearchHandler');
+        return $this->renderWith(__CLASS__);
     }
 
     public function add($request)
@@ -73,19 +73,18 @@ class GridFieldAddExistingSearchHandler extends RequestHandler
      */
     public function SearchForm()
     {
-        $form = new Form(
+        $form = Form::create(
             $this,
             'SearchForm',
             $this->context->getFields(),
-            new FieldList(
-                FormAction::create('doSearch', _t('GridFieldExtensions.SEARCH', 'Search'))
+            FieldList::create(
+                FormAction::create('doSearch', _t(__CLASS__ . '.SEARCH', 'Search'))
                     ->setUseButtonTag(true)
-                    ->addExtraClass('ss-ui-button')
-                    ->setAttribute('data-icon', 'magnifier')
+                    ->addExtraClass('btn btn-primary font-icon-search add-existing-search-button')
             )
         );
 
-        $form->addExtraClass('stacked add-existing-search-form');
+        $form->addExtraClass('stacked add-existing-search-form form--no-dividers');
         $form->setFormMethod('GET');
 
         return $form;

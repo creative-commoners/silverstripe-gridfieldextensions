@@ -2,6 +2,7 @@
 
 namespace Symbiote\GridFieldExtensions;
 
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField_HTMLProvider;
 use SilverStripe\Forms\GridField\GridField_URLHandler;
 use SilverStripe\ORM\SS_List;
@@ -28,7 +29,7 @@ class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridFi
     public function __construct($fragment = 'buttons-before-left')
     {
         $this->fragment = $fragment;
-        $this->title    = _t('GridFieldExtensions.ADDEXISTING', 'Add Existing');
+        $this->title    = _t(__CLASS__ . '.ADDEXISTING', 'Add Existing');
     }
 
     /**
@@ -91,13 +92,13 @@ class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridFi
     {
         GridFieldExtensions::include_requirements();
 
-        $data = new ArrayData(array(
+        $data = ArrayData::create(array(
             'Title' => $this->getTitle(),
             'Link'  => $grid->Link('add-existing-search')
         ));
 
         return array(
-            $this->fragment => $data->renderWith('Symbiote\\GridFieldExtensions\\GridFieldAddExistingSearchButton'),
+            $this->fragment => $data->renderWith(__CLASS__),
         );
     }
 
@@ -110,6 +111,6 @@ class GridFieldAddExistingSearchButton implements GridField_HTMLProvider, GridFi
 
     public function handleSearch($grid, $request)
     {
-        return new GridFieldAddExistingSearchHandler($grid, $this);
+        return Injector::inst()->create(GridFieldAddExistingSearchHandler::class, $grid, $this);
     }
 }
